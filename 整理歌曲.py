@@ -5,19 +5,16 @@ import re
 
 def move():
     dirs = '/Volumes/My Sata/音乐/Music/music'
-
     for x, y, z in os.walk(dirs):
         for zz in z:
             if 'mp3' in zz:
                 old_file_dir = x + '/{}'.format(zz)
                 new_file_dir = '/Volumes/My Sata/音乐/Music/{}'.format(zz)
-
                 print('{}---->{}'.format(old_file_dir, new_file_dir))
                 if not os.path.exists(new_file_dir):
                     shutil.move(old_file_dir, new_file_dir)
-                    print('done')
-                else:
-                    print('exist!')
+                    print('Have Moved!')
+                
 
 
 # 通过俩个名字不一样,可实现文件重命名
@@ -25,20 +22,23 @@ def rename():
     dirs = '/Volumes/My Sata/音乐/Music'
     for x, y, z in os.walk(dirs):
         for zz in z:
-            old_file_dir = x + '/{}'.format(zz)
+            print(zz)
+            '''
+            切割字符函数
+            split和join的应用
+            '''          
+            # old_file_dir = x + '/{}'.format(zz)
+            # #分割字符,再拼接
+            # xx = ''.join(zz.split(' ')[1:])
+            # #获得新命名
+            # new_file_dir = x + '/{}'.format(xx)
+            # if not os.path.exists(new_file_dir):
+            #     shutil.move(old_file_dir, new_file_dir)
 
-            xx = ''.join(zz.split(' ')[1:])
-
-            print(xx)
-            new_file_dir = x + '/{}'.format(xx)
-            if not os.path.exists(new_file_dir):
-                shutil.move(old_file_dir, new_file_dir)
-
-            # 用filter函数过滤方法
-            # xx = filter(zz.isdigit, zz)
-            # print(zz)
-            # 用repalce方法过滤
-            """
+            
+            
+            '''
+            -----re正则法替换字符----
             (1）过滤出字母的正则表达式
                 [^(A-Za-z)]
             （2） 过滤出 数字 的正则表达式
@@ -47,11 +47,14 @@ def rename():
                 [^(\\u4e00-\\u9fa5)]
             （4） 过滤出字母、数字和中文的正则表达式
                 [^(a-zA-Z0-9\\u4e00-\\u9fa5)]
-            """
-            # 用re过滤
-            # pattern  = '[(a-zA-Z0-9)]'
-            # txt = re.sub(pattern, '', zz)
-            # print(txt)
+            '''           
+            # pattern = '[(0-9)|-]'
+            # new_zz = re.sub(pattern, '', zz)
+            # print('{}---->{}'.format(zz, new_zz))
+            
+
+
+
 
 
 rename()
