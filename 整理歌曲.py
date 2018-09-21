@@ -19,9 +19,8 @@ def move():
                 else:
                     print('exist!')
 
-# 过滤指定字符
 
-
+# 通过俩个名字不一样,可实现文件重命名
 def rename():
     dirs = '/Volumes/My Sata/音乐/Music'
     for x, y, z in os.walk(dirs):
