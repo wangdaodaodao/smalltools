@@ -46,12 +46,13 @@ def rename(dirs='/Volumes/My Sata/音乐/Music'):
                 （4） 过滤出字母、数字和中文的正则表达式
                     [^(a-zA-Z0-9\\u4e00-\\u9fa5)]
                 '''
-                pattern = '[(0-9)]'
-                new_zz = re.sub(pattern, '', zz.split('.mp3')[0]) + '.mp3'
+                pattern = '[(0-9)]|-|Live|(|)|live| '
+                pattern2 = '[^(\\u4e00-\\u9fa5)|()]'
+                new_zz = re.sub(pattern2, '', zz.split('.mp3')[0]) + '.mp3'
                 print('{}---->{}'.format(zz, new_zz))
                 old_file_dir = x + '/{}'.format(zz)
                 new_file_dir = x + '/{}'.format(new_zz)
-                shutil.move(old_file_dir, new_file_dir)
+                # shutil.move(old_file_dir, new_file_dir)
 
 
 def chachong():
@@ -60,29 +61,33 @@ def chachong():
 
     for x, y, z in os.walk(dirs):
         for zz in z:
-            if 'ive' in zz:
-                new_file_dir = dirs2 + '/{}'.format(zz)
-                old_file_dir = dirs + '/{}'.format(zz)
+            # if 'ive' in zz:
+            #     new_file_dir = dirs2 + '/{}'.format(zz)
+            #     old_file_dir = x + '/{}'.format(zz)
+            #     if not os.path.exists(new_file_dir):
+            #         shutil.move(old_file_dir, new_file_dir)
+            #         print('{}----->{}'.format(old_file_dir, new_file_dir))
+            if '(2)' in zz or '(3)' in zz:
+                print(zz)
+                new_file_dir = new_file_dir = dirs + '/1/{}'.format(zz)
+                old_file_dir = x + '/{}'.format(zz)
                 if not os.path.exists(new_file_dir):
                     shutil.move(old_file_dir, new_file_dir)
                     print('{}----->{}'.format(old_file_dir, new_file_dir))
+                
 
-
-def move2():
-    dirs = '/Volumes/My Sata/图片'
+def got():
+    dirs = dirs = '/Volumes/My Mac/user/aklex'
     for x, y, z in os.walk(dirs):
+        # print(len(z))
         for zz in z:
-            if 'mp3' in zz:
-                print(zz)
-                old_file_dir = x + '/{}'.format(zz)
-                new_file_dir = dirs + '/{}'.format(zz)
-                if os.path.exists(old_file_dir):
-                    print('234567654')
-
-                    if not os.path.exists(new_file_dir):
-                        print('{}----->{}'.format(old_file_dir, new_file_dir))
-                        shutil.move(old_file_dir, new_file_dir)
+            if 'mp3' in zz and '._' not in zz:
+                print('{}-------->{}'.format(x, zz))
+                # if os.path.exists(zz):
+                    # os.remove('{}/{}'.format(x, zz))
+                    # continue
+                # print(zz)
 
 
-# dirss = '/Volumes/My Sata/图片'
-# rename(dirss)
+
+got()
