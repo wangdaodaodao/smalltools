@@ -7,8 +7,8 @@ import os
 import sys
 
 minimumsize = 10
-# print("fetching msg from %s \n" % sys.argv[1])
-# url = re.sub("#/", "", sys.argv[1])
+# print("fetching msg from %s \n" % sys.argv[0])
+# url = re.sub("#/", "", sys.argv[0])
 
 url = 'http://music.163.com/playlist?id=13454597'
 
@@ -25,9 +25,10 @@ else:
 
 res = r'<li><a .*?>(.*?)</a></li>'
 mm = re.findall(res, contents, re.S | re.M)
+print(mm)
 
-n = 58
-for value in mm[57: ]:
+n = 0
+for value in mm:
     url = 'http://sug.music.baidu.com/info/suggestion'
     payload = {'word': value, 'version': '2', 'from': '0'}
     print(value)
