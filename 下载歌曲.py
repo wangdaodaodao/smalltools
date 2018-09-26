@@ -27,3 +27,7 @@ class Encrypyed():
     def encrypted_request(self, text):
         text = json.dums(text)
         sec_key = self.create_secret_key(16)
+        
+    #随机产生一个字符串,然后进行十六进制转换
+    def create_secret_key(self, size):
+        return binascii.hexlify(os.urandom(size)) [ :16]
