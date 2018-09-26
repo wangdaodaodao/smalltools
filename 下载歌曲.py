@@ -34,7 +34,7 @@ for value in mm:
     print(value)
 
     r = requests.get(url, params=payload)
-    
+
     contents = r.text
     print(contents)
     d = json.loads(contents, encoding="utf-8")
@@ -68,14 +68,15 @@ for value in mm:
     filename = ("{}/{}/{}-{}.flac".format
                 (CURRENT_PATH, songdir, songname, artistName))
     filename2 = ("{}/{}/{}-{}.mp3".format
-                (CURRENT_PATH, songdir, songname, artistName))
+                 (CURRENT_PATH, songdir, songname, artistName))
 
     f = urllib.request.urlopen(songlink)
     headers = requests.head(songlink).headers
     size = round(int(headers['Content-Length']) / (1024 ** 2), 2)
-    #Download unfinished Flacs again.
-    if not os.path.isfile(filename) or os.path.getsize(filename) < minimumsize: #Delete useless flacs
-        print("{}.正在下载歌曲<{}>......\n".format(n, songname))    
+    # Download unfinished Flacs again.
+    # Delete useless flacs
+    if not os.path.isfile(filename) or os.path.getsize(filename) < minimumsize:
+        print("{}.正在下载歌曲<{}>......\n".format(n, songname))
         if size >= minimumsize:
             with open(filename, "wb") as code:
                 code.write(f.read())
