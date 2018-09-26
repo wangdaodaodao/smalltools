@@ -14,3 +14,6 @@ def e1():
                         b[i] = aa
                         i += 1
     print(c, b)
+
+
+

@@ -34,7 +34,9 @@ for value in mm:
     print(value)
 
     r = requests.get(url, params=payload)
+    
     contents = r.text
+    print(contents)
     d = json.loads(contents, encoding="utf-8")
     if d is not None and 'data' not in d:
         continue
