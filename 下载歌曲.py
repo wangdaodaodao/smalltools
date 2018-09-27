@@ -92,8 +92,45 @@ class Crawler():
         self.timeout = timeout
         self.ep = Encrypyed()
 
-    def post_requests(self, url, params):
+    def post_request(self, url, params):
         """
         post 请求
         """
+        data = self.ep.encrypted_request(params)
+        resp = self.session.post(url, data, timeout=self.timeout)
+        result = resp.json()
+        if result['code'] != 200:
+            click.echo('post error')
+        else:
+            return result
+
+    def search(self, search_content, search_type, limit=9):
+        """
+        搜索api
+        """
+        url = 'http://music.163.com/weapi/cloudsearch/get/web?csrf_token='
+        params = {
+            's':search_content,
+            'type':search_type,
+            'offset':0,
+            'sub': 'false',
+            'limit': limit
+            }
+        result = self.post_request(url, params)
+        return result
+
+    def search_song(self, song_name, song_num, quiet=True, limit=9):
+        """
+        根据 音乐名搜索
+        """
+        result = self.search(song_name, search_type=1, limit=limit)
+        if reslut['result']['songCount'] <= 0:
+            click.echo('歌曲不存在!')
+        else:
+            songs = result['result']['songs']
+            if quiet:
+                song_id, song_name = song[0]['id'],song[0]['name']
+                song = Song(song_id=song_id, song_name = song_name, song_num=song_num)
+
         
+click.echo('ppp')
