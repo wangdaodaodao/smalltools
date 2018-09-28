@@ -86,7 +86,8 @@ class Crawler():
 		}
 
         self.session = requests.Session()
-        self.seesion.headers.update(self.headers)
+
+        self.session.headers.update(self.headers)
         self.session.cookies = cookiejar.LWPCookieJar(cookie_path)
         self.download_session = requests.Session()
         self.timeout = timeout
@@ -131,6 +132,77 @@ class Crawler():
             if quiet:
                 song_id, song_name = song[0]['id'],song[0]['name']
                 song = Song(song_id=song_id, song_name = song_name, song_num=song_num)
+                return song
+    
+    def get_song_url (self, song_id, bit_rate=320000):
+        """
+        通过id获取歌曲地址
+        """
+        url = ''
+        csrf = ''
+        params = {
+            'ids':[song_id],
+            'br':bit_rate,
+            'csrf_token': csrf
+        }
+        result = self.post_request(url, params)
+        if song_url is None:
+            click.echo('歌曲不存在!')
+        else:
+            return song_url
 
+
+
+    def get_song_by_url(self, url, song_name,song_num, folder):
+        """
+        下载歌曲到本地
+        """
+        if not os.path.exists(folder):
+            os.mkdir(folder)
+        fpath = os.path.join(folder, '{}-{}.mp3'.format(str(song_num), song_name))
         
-click.echo('ppp')
+        #判断文件名中,是否有特殊字符
+        if sys.platform == 'win32' or sys.platform == 'cygwin':
+            validname = re.sub(r'[<>:/\\|?*]', '', song_name)
+            if validname != song_name:
+                fpath = os.path.join(floder, '{}-{}.mp3'.format(str(song_num), song_name))
+        
+        #储存文件的方法,要判断文件是否存在,在用click库下载
+        if not os.path.exists(fpath):
+            resp = self.download_session.get(url, timeout=self.timeout, stream=True)
+            length = int(resp.headers.get('content-length'))
+            label = '正在下载{},{}kb'.format(song_name, int(length/1024))
+            
+            with click.progressbar(length=length, label=label) as progressbar:
+                with open(fpath, 'wb') as song_file:
+                    for chunk in resp.iter_content(chunk_size=1024):
+                        if chunk:
+                            song_file.write(chunk)
+                            progressbar.update(1024) 
+
+
+
+
+class Netease():
+    """
+    网易云下载
+    """
+    def __init__(self, timeout, folder, quiet, coolie_paht):
+        self.crawler = Crawler(timeout, cookie_path)
+        self.folder = '.' if folder is None else folder
+        self.quiet = quiet
+
+    def download_song_by_search(self, song_name, song_num):
+        """
+        """
+        try:
+            song = self.crawler.search_song(song_name, song_num, self.quiet)
+        except:
+            click.echo('下载出错了.')
+        if song != None:
+            self.download_song_by_id(song.song_id, song.song_name, song.song_num, self.folder)
+
+
+
+
+
