@@ -1,12 +1,13 @@
-import requests
-import os
-import json
 import base64
-import urllib
-from scrapy.selector import Selector
+import json
+import os
+import re
 from binascii import hexlify
-from Crypto.Cipher import AES
 from threading import Thread
+
+import requests
+from Crypto.Cipher import AES
+from scrapy.selector import Selector
 
 
 class Encrypyed():
@@ -70,8 +71,10 @@ class wangyiyun():
         ##['/song?id=64006', '/song?id=63959', '/song?id=25642714', '/song?id=63914', '/song?id=4878122', '/song?id=63650']
 
     def get_songinfo(self, songurl):
-        '''根据songid进入每首歌信息的网址，得到歌曲的信息
-        return：'64006'，'陈小春-失恋王'''
+        '''
+        根据songid进入每首歌信息的网址，得到歌曲的信息
+        return：'64006'，'陈小春-失恋王
+        '''
         url = self.main_url+songurl
         re = self.session.get(url)
         sel = Selector(text=re.text)
@@ -100,14 +103,19 @@ class wangyiyun():
         '''
         song_id, songname = self.get_songinfo(songurl)  # 根据歌曲url得出ID、歌名
         song_url = self.get_url(song_id)  # 根据ID得到歌曲的实质URL
-        print(song_url)
+        # print(song_url)
         path = dir_path + songname + '.mp3'  # 文件路径
-        if not os.path.exists(path):
+        validname = re.sub(r'[<>:/\\|?*]', '', songname)
+        if validname != songname:
+            path = dir_path + validname + '.mp3'
+        if not os.path.exists(path):            
             if song_url:
                 print('正在下载:{}!'.format(songname))
                 resp = requests.get(song_url)
                 with open(path, 'wb') as code:  # 下载文件
                     code.write(resp.content)
+            else:
+                print('没有{}哦.'.format(songname))
         else:
             print('{}已存在'.format(songname))
 
@@ -126,4 +134,4 @@ class wangyiyun():
 
 if __name__ == '__main__':
     d = wangyiyun()
-    d.work(538832049)
+    d.work(346549183)
