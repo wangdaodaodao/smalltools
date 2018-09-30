@@ -90,7 +90,7 @@ class Crawler():
 
         self.session = requests.Session()
 
-        self.session.headers.update(self.headers)
+        # self.session.headers.update(self.headers)
         self.session.cookies = cookiejar.LWPCookieJar(cookie_path)
         self.download_session = requests.Session()
         self.timeout = timeout
@@ -148,12 +148,16 @@ class Crawler():
         url = 'http://music.163.com/weapi/song/enhance/player/url?csrf_token='
         csrf = ''
         params = {
-            'ids': song_id,
+            'ids': [song_id],
             'br': bit_rate,
             'csrf_token': csrf
         }
-        result = self.post_request(url, params)
-        print(result)
+        data = self.ep.encrypted_request(params)
+        result = self.session.post(url, data=data)
+        print(result.json())
+
+
+        # print(result)
         song_url = result['data'][0]['url']
         if song_url is None:
             click.echo('歌曲不存在!')
@@ -240,3 +244,10 @@ if __name__ == '__main__':
                 netease.download_song_by_search(song_name, song_num+1)
     else:
         click.echo('列表不存在')
+
+
+
+x = Crawler()
+y = x.get_song_url()
+
+print(y)
