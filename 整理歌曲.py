@@ -56,7 +56,7 @@ def rename(dirs='/Volumes/My Sata/音乐/Music'):
 
 
 def chachong():
-    dirs = '/Volumes/My Sata/音乐/Jay'
+    dirs = '/Volumes/My Sata/音乐/热门中文'
     dirs2 = '/Volumes/My Sata/音乐/Jay/music'
 
     for x, y, z in os.walk(dirs):
@@ -67,12 +67,14 @@ def chachong():
             #     if not os.path.exists(new_file_dir):
             #         shutil.move(old_file_dir, new_file_dir)
             #         print('{}----->{}'.format(old_file_dir, new_file_dir))
-            if '(2)' in zz or '(3)' in zz:
+            print(zz)
+
+            if '周杰伦' in zz:
                 print(zz)
                 new_file_dir = new_file_dir = dirs + '/1/{}'.format(zz)
                 old_file_dir = x + '/{}'.format(zz)
                 if not os.path.exists(new_file_dir):
-                    shutil.move(old_file_dir, new_file_dir)
+                    # shutil.move(old_file_dir, new_file_dir)
                     print('{}----->{}'.format(old_file_dir, new_file_dir))
                 
 
@@ -89,5 +91,4 @@ def got():
                 # print(zz)
 
 
-
-got()
+chachong()

@@ -178,7 +178,7 @@ class Crawler():
             validname = re.sub(r'[<>:/\\|?*]', '', song_name)
             if validname != song_name:
                 fpath = os.path.join(
-                    floder, '{}-{}.mp3'.format(str(song_num), song_name))
+                    folder, '{}-{}.mp3'.format(str(song_num), song_name))
 
         # 储存文件的方法,要判断文件是否存在,在用click库下载
         if not os.path.exists(fpath):

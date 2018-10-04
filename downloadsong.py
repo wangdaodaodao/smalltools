@@ -5,13 +5,16 @@ import re
 from binascii import hexlify
 from threading import Thread
 
+import click
 import requests
 from Crypto.Cipher import AES
 from scrapy.selector import Selector
 
 
 class Encrypyed():
-    '''传入歌曲的ID，加密生成'params'、'encSecKey 返回'''
+    '''
+    传入歌曲的ID，加密生成'params'、'encSecKey 返回
+    '''
 
     def __init__(self):
         self.pub_key = '010001'
@@ -108,7 +111,7 @@ class wangyiyun():
         validname = re.sub(r'[<>:/\\|?*]', '', songname)
         if validname != songname:
             path = dir_path + validname + '.mp3'
-        if not os.path.exists(path):            
+        if not os.path.exists(path):
             if song_url:
                 print('正在下载:{}!'.format(songname))
                 resp = requests.get(song_url)
@@ -122,7 +125,7 @@ class wangyiyun():
     def work(self, playlist):
         songurls = self.get_songurls(playlist)  # 输入歌单编号，得到歌单所有歌曲的url
         path = '/Volumes/My Sata/音乐/热门中文/'  # 文件路径
-        threads = []
+        # threads = []
         for songurl in songurls:
             # t = Thread(target=self.download_song, args=[songurl, path])
             self.download_song(songurl, path)  # 下载歌曲
