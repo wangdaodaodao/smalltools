@@ -3,16 +3,19 @@ import shutil
 import re
 
 
-def move():
-    dirs = '/Volumes/My Sata/音乐/Music/music'
-    for x, y, z in os.walk(dirs):
+def move(old_dir, new_dir):
+    # old_dir = '/Volumes/My Sata/音乐/Music/张韶涵'
+    # new_dir = '/Volumes/My Sata/音乐/Music/'
+    for x, y, z in os.walk(old_dir):
         for zz in z:
-            if 'mp3' in zz:
-                old_file_dir = x + '/{}'.format(zz)
-                new_file_dir = '/Volumes/My Sata/音乐/Music/{}'.format(zz)
-                print('{}---->{}'.format(old_file_dir, new_file_dir))
-                if not os.path.exists(new_file_dir):
-                    shutil.move(old_file_dir, new_file_dir)
+            # print(zz)
+            if  '.' in zz:
+                old_files_name = '{}/{}'.format(old_dir, zz)
+                new_files_name = '{}/{}'.format(new_dir, zz)
+                print('{}---->{}'.format(old_files_name, new_files_name))
+                if not os.path.exists(new_files_name):
+                    
+                    # shutil.move(old_files_name, new_files_name)
                     print('Have Moved!')
 
 
@@ -83,7 +86,7 @@ def got():
     for x, y, z in os.walk(dirs):
         # print(len(z))
         for zz in z:
-            if 'mp3' in zz and '._' not in zz:
+            if 'mp3' in zz and '._' in zz:
                 print('{}-------->{}'.format(x, zz))
                 # if os.path.exists(zz):
                     # os.remove('{}/{}'.format(x, zz))
@@ -91,4 +94,7 @@ def got():
                 # print(zz)
 
 
-chachong()
+old_dir = '/Volumes/My Sata/音乐/张韶涵'
+new_dir = '/Volumes/My Sata/音乐/1'
+
+move(old_dir, new_dir)

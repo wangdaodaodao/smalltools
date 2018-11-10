@@ -113,10 +113,16 @@ class wangyiyun():
             path = dir_path + validname + '.mp3'
         if not os.path.exists(path):
             if song_url:
-                print('正在下载:{}!'.format(songname))
                 resp = requests.get(song_url)
-                with open(path, 'wb') as code:  # 下载文件
-                    code.write(resp.content)
+                length = int(resp.headers.get('content-length'))
+                label = '正在下载<{}>,{:.2f}kb'.format(songname, length/1024)
+                with click.progressbar(length=length, label=label) as progressbar:
+
+                    with open(path, 'wb') as code:  # 下载文件
+                        for chunk in resp.iter_content(chunk_size=1024):
+                            if chunk:
+                                code.write(chunk)
+                                progressbar.update(1024)
             else:
                 print('没有{}哦.'.format(songname))
         else:
@@ -124,8 +130,10 @@ class wangyiyun():
 
     def work(self, playlist):
         songurls = self.get_songurls(playlist)  # 输入歌单编号，得到歌单所有歌曲的url
-        path = '/Volumes/My Sata/音乐/热门中文/'  # 文件路径
+        path = '/Volumes/My Sata/音乐/1/'  # 文件路径
         # threads = []
+        if not os.path.exists(path):
+            os.mkdir(path)
         for songurl in songurls:
             # t = Thread(target=self.download_song, args=[songurl, path])
             self.download_song(songurl, path)  # 下载歌曲
@@ -137,4 +145,4 @@ class wangyiyun():
 
 if __name__ == '__main__':
     d = wangyiyun()
-    d.work(346549183)
+    d.work(664223)
