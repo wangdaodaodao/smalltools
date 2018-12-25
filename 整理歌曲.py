@@ -6,17 +6,20 @@ import re
 def move(old_dir, new_dir):
     # old_dir = '/Volumes/My Sata/音乐/Music/张韶涵'
     # new_dir = '/Volumes/My Sata/音乐/Music/'
+
+    i = 1
     for x, y, z in os.walk(old_dir):
         for zz in z:
             # print(zz)
-            if  '.' in zz:
-                old_files_name = '{}/{}'.format(old_dir, zz)
-                new_files_name = '{}/{}'.format(new_dir, zz)
-                print('{}---->{}'.format(old_files_name, new_files_name))
-                if not os.path.exists(new_files_name):
-                    
-                    # shutil.move(old_files_name, new_files_name)
-                    print('Have Moved!')
+            
+            old_files_name = '{}/{}'.format(x, zz)
+            new_files_name = '{}/{}-{}'.format(new_dir, i, zz)
+            print('{}---->{}'.format(old_files_name, new_files_name))
+            if not os.path.exists(new_files_name):
+                
+                shutil.move(old_files_name, new_files_name)
+                print('Have Moved!')
+            i += 1
 
 
 # 通过俩个名字不一样,可实现文件重命名
@@ -94,7 +97,7 @@ def got():
                 # print(zz)
 
 
-old_dir = '/Volumes/My Sata/音乐/张韶涵'
-new_dir = '/Volumes/My Sata/音乐/1'
+old_dir = '/Volumes/My Sata/Photography/姿势/摄影师与模特的完美摆姿教学/美姿68套图/李妍静68套美姿套图'
+new_dir = '/Volumes/My Sata/Photography/姿势/摄影师与模特的完美摆姿教学/美姿68套图'
 
 move(old_dir, new_dir)

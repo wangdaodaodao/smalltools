@@ -3,11 +3,16 @@ import requests
 import os
 import re
 
+headers={
+    'User-Agent': 'chrome'
+}
 def echo():
     path = os.path.abspath('.') + os.sep + '1.mp3'
     print(path)
     url = 'https://dldir1.qq.com/invc/tt/QQBrowser_for_Mac.dmg'
-    response = requests.get(url)
+    url2 = 'https://www.baidu.com/1.zip'
+    response = requests.get(url, headers=headers)
+    print(response.status_code)
     length = int(response.headers.get('content-length'))
     label = '正在下载,共{}kb'.format(length/1024)
     name = url.split('/')[-1]
@@ -21,9 +26,5 @@ def echo():
 
 
 echo()
-pattern = '[^(a-z)]'
-strings = 'jw111aAO91a'
-s2 = re.sub(pattern, '#', strings)
-print(s2)
 
 
