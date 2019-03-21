@@ -11,12 +11,12 @@ def move(old_dir, new_dir):
     for x, y, z in os.walk(old_dir):
         for zz in z:
             # print(zz)
-            
+
             old_files_name = '{}/{}'.format(x, zz)
             new_files_name = '{}/{}-{}'.format(new_dir, i, zz)
             print('{}---->{}'.format(old_files_name, new_files_name))
             if not os.path.exists(new_files_name):
-                
+
                 shutil.move(old_files_name, new_files_name)
                 print('Have Moved!')
             i += 1
@@ -82,18 +82,18 @@ def chachong():
                 if not os.path.exists(new_file_dir):
                     # shutil.move(old_file_dir, new_file_dir)
                     print('{}----->{}'.format(old_file_dir, new_file_dir))
-                
+
 
 def got():
     dirs = dirs = '/Volumes/My Mac/user/aklex'
-    for x, y, z in os.walk(dirs):
+    for x, z in os.walk(dirs):
         # print(len(z))
         for zz in z:
             if 'mp3' in zz and '._' in zz:
                 print('{}-------->{}'.format(x, zz))
                 # if os.path.exists(zz):
-                    # os.remove('{}/{}'.format(x, zz))
-                    # continue
+                # os.remove('{}/{}'.format(x, zz))
+                # continue
                 # print(zz)
 
 

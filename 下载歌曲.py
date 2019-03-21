@@ -21,7 +21,10 @@ class Encrypyed():
     """
 
     def __init__(self):
-        self.modulus = '00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7b725152b3ab17a876aea8a5aa76d2e417629ec4ee341f56135fccf695280104e0312ecbda92557c93870114af6c9d05c4f7f0c3685b7a46bee255932575cce10b424d813cfe4875d3e82047b97ddef52741d546b8e289dc6935b3ece0462db0a22b8e7'
+        self.modulus = '00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7b7 \
+            25152b3ab17a876aea8a5aa76d2e417629ec4ee341f56135fccf695280104e0312ecbda9255 \
+                7c93870114af6c9d05c4f7f0c3685b7a46bee255932575cce10b424d813cfe4875d3e820 \
+                    47b97ddef52741d546b8e289dc6935b3ece0462db0a22b8e7'
         self.nonce = '0CoJUm6Qyw8W8jud'
         self.pub_key = '010001'
 
@@ -85,7 +88,8 @@ class Crawler():
             'Content-Type': 'application/x-www-form-urlencoded',
             'Host': 'music.163.com',
             'Referer': 'http://music.163.com/search/',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) \
+                Chrome/63.0.3239.132 Safari/537.36'
         }
 
         self.session = requests.Session()
@@ -156,7 +160,6 @@ class Crawler():
         result = self.session.post(url, data=data)
         print(result.json())
 
-
         # print(result)
         song_url = result['data'][0]['url']
         if song_url is None:
@@ -211,7 +214,7 @@ class Netease():
 
         song = self.crawler.search_song(song_name, song_num, self.quiet)
 
-        if song != None:
+        if song:
             self.download_song_by_id(
                 song.song_id, song.song_name, song.song_num, self.folder)
 
@@ -244,7 +247,6 @@ if __name__ == '__main__':
                 netease.download_song_by_search(song_name, song_num+1)
     else:
         click.echo('列表不存在')
-
 
 
 x = Crawler()
