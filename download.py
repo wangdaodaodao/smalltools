@@ -10,7 +10,6 @@ def echo():
     path = os.path.abspath('.') + os.sep + '1.mp3'
     print(path)
     url = 'https://dldir1.qq.com/invc/tt/QQBrowser_for_Mac.dmg'
-    url2 = 'https://www.baidu.com/1.zip'
     response = requests.get(url, headers=headers)
     print(response.status_code)
     length = int(response.headers.get('content-length'))
