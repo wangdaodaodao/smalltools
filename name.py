@@ -1,8 +1,9 @@
 # coding = uft-8
 import os
 import shutil
+from download import *
 
-dir_s = '/Volumes/My Sata/苹果越狱/IconBundles/'
+dir_s = '/Volumes/My Sata/苹果越狱/IconBundles/1'
 if os.path.exists(dir_s):
     for x, y, z in os.walk(dir_s):
         for zz in z:
@@ -15,3 +16,4 @@ if os.path.exists(dir_s):
             print(old_name, '->', new_name)
 else:
     print('不存在')
+
