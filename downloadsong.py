@@ -70,7 +70,8 @@ class wangyiyun():
         re = self.session.get(url)  # 直接用session进入网页，懒得构造了
         sel = Selector(text=re.text)  # 用scrapy的Selector，懒得用BS4了
         songurls = sel.xpath('//ul[@class="f-hide"]/li/a/@href').extract()
-        return songurls  # 所有歌曲组成的list
+        title = sel.xpath('//div[@class="tit"]/h2/text()').extract_first()
+        return songurls, title  # 所有歌曲组成的list
         ##['/song?id=64006', '/song?id=63959', '/song?id=25642714', '/song?id=63914', '/song?id=4878122', '/song?id=63650']
 
     def get_songinfo(self, songurl):
@@ -115,9 +116,8 @@ class wangyiyun():
             if song_url:
                 resp = requests.get(song_url)
                 length = int(resp.headers.get('content-length'))
-                label = '正在下载<{}>,{:.2f}kb'.format(songname, length/1024)
+                label = '正在下载<{}>,{:.2f}Mb'.format(songname, length/1024000)
                 with click.progressbar(length=length, label=label) as progressbar:
-
                     with open(path, 'wb') as code:  # 下载文件
                         for chunk in resp.iter_content(chunk_size=1024):
                             if chunk:
@@ -129,20 +129,20 @@ class wangyiyun():
             print('{}已存在'.format(songname))
 
     def work(self, playlist):
-        songurls = self.get_songurls(playlist)  # 输入歌单编号，得到歌单所有歌曲的url
-        path = '/Volumes/My Sata/音乐/1/'  # 文件路径
+        songs = self.get_songurls(playlist)  # 输入歌单编号，得到歌单所有歌曲的url
+        path = '/Volumes/My Sata/音乐/{}/'.format(songs[1])  # 文件路径
         # threads = []
         if not os.path.exists(path):
             os.mkdir(path)
-        for songurl in songurls:
+        for songurl in songs[0]:
             # t = Thread(target=self.download_song, args=[songurl, path])
             self.download_song(songurl, path)  # 下载歌曲
             # t.start()
-            # threads.append(t)
+        #     threads.append(t)
         # for t in threads:
-            # t.join()
+        #     t.join()
 
 
 if __name__ == '__main__':
     d = wangyiyun()
-    d.work(664223)
+    d.work(310970433)

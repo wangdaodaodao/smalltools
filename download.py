@@ -14,7 +14,6 @@ def echo(url):
             response = requests.get(url, headers=headers)
             length = int(response.headers.get('content-length'))
             label = '正在下载<{}>,共{:.2f}kb'.format(name, length/1024)
-            # print(response.headers, length, response.status_code)
             with click.progressbar(length=length, label=label) as progressbar:
                 with open(name, 'wb') as f:
                     for chunk in response.iter_content(chunk_size=1024):
