@@ -3,7 +3,6 @@ import json
 import os
 import re
 from binascii import hexlify
-from threading import Thread
 
 import click
 import requests
@@ -15,7 +14,6 @@ class Encrypyed():
     '''
     传入歌曲的ID，加密生成'params'、'encSecKey 返回
     '''
-
     def __init__(self):
         self.pub_key = '010001'
         self.modulus = '00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7b725152b3ab17a876aea8a5aa76d2e417629ec4ee341f56135fccf695280104e0312ecbda92557c93870114af6c9d05c4f7f0c3685b7a46bee255932575cce10b424d813cfe4875d3e82047b97ddef52741d546b8e289dc6935b3ece0462db0a22b8e7'
@@ -52,9 +50,34 @@ class Encrypyed():
 class wangyiyun():
     def __init__(self):
         self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) \
+                AppleWebKit/537.36 (KHTML, like Gecko) Chrome/\
+                    55.0.2883.87 Safari/537.36',
             'Referer': 'http://music.163.com/',
-            'Cookie': '_iuqxldmzr_=32; _ntes_nnid=8d4ef0883a3bcc9d3a2889b0bf36766a,1533782432391; _ntes_nuid=8d4ef0883a3bcc9d3a2889b0bf36766a; __utmc=94650624; WM_TID=GzmBlbRkRGQXeQiYuDVCfoEatU6VSsKC; playerid=19729878; __utma=94650624.1180067615.1533782433.1533816989.1533822858.9; __utmz=94650624.1533822858.9.7.utmcsr=cn.bing.com|utmccn=(referral)|utmcmd=referral|utmcct=/; WM_NI=S5gViyNVs14K%2BZoVerGK69gLlmtnH5NqzyHcCUY%2BiWm2ZaHATeI1gfsEnK%2BQ1jyP%2FROzbzDV0AyJHR4YQfBetXSRipyrYCFn%2BNdA%2FA8Mv80riS3cuMVJi%2BAFgCpXTiHBNHE%3D; WM_NIKE=9ca17ae2e6ffcda170e2e6ee84b674afedfbd3cd7d98b8e1d0f554f888a4abc76990b184badc4f89e7af8ece2af0fea7c3b92a91eba9b7ec738e8abdd2b741e986a1b7e87a8595fadae648b0b3bc8fcb3f8eafb69acb69818b97ccec5dafee9682cb4b98bb87d2e66eb19ba2acaa5bf3b6b7b1ae5a8da6ae9bc75ef49fb7abcb5af8879f87c16fb8889db3ec7cbbae97a4c566e992aca2ae4bfc93bad9b37aab8dfd84f8479696a7ccc44ea59dc0b9d7638c9e82a9c837e2a3; JSESSIONID-WYYY=sHwCKYJYxz6ODfURChA471BMF%5CSVf3%5CTc8Qcy9h9Whj6CfMxw4YWTMV7CIx5g6rqW8OBv04YGHwwq%2B%5CD1N61qknTP%2Fym%2BHJZ1ylSH1EabbQASc9ywIT8YvOr%2FpMgvmm1cbr2%2Bd6ssMYXuTlpOIrKqp%5C%2FM611EhmfAfU47%5CSQWAs%2BYzgY%3A1533828139236'
+            # # 'Cookie': '_iuqxldmzr_=32; _ntes_nnid=8d4ef0883a3\
+            #     bcc9d3a2889b0bf36766a,1533782432391; _ntes_nui\
+            #         d=8d4ef0883a3bcc9d3a2889b0bf36766a; __utmc\
+            #         =94650624; WM_TID=GzmBlbRkRGQXeQiYuDVCf\
+            #         oEatU6VSsKC; playerid=19729878; __utma=94650\
+            #         624.1180067615.1533782433.1533816989.15338228\
+            #         58.9; __utmz=94650624.1533822858.9.7.utmcsr=cn\
+            #         .bing.com|utmccn=(referral)|utmcmd=referral|ut\
+            #         mcct=/; WM_NI=S5gViyNVs14K%2BZoVerGK69gLlmtnH5N\
+            #         qzyHcCUY%2BiWm2ZaHATeI1gfsEnK%2BQ1jyP%2FROz\
+            #         bzDV0AyJHR4YQfBetXSRipyrYCFn%2BNdA%2FA8Mv80riS3cu\
+            #         MVJi%2BAFgCpXTiHBNHE%3D; WM_NIKE=9ca17ae2e6ffcda1\
+            #         70e2e6ee84b674afedfbd3cd7d98b8e1d0f554f888a4abc769\
+            #         90b184badc4f89e7af8ece2af0fea7c3b92a91eba9b7ec738e8\
+            #         abdd2b741e986a1b7e87a8595fadae648b0b3bc8fcb3f8eafb6\
+            #         9acb69818b97ccec5dafee9682cb4b98bb87d2e66eb19ba2aca\
+            #         a5bf3b6b7b1ae5a8da6ae9bc75ef49fb7abcb5af8879f87c16f\
+            #         b8889db3ec7cbbae97a4c566e992aca2ae4bfc93bad9b37aab8\
+            #         dfd84f8479696a7ccc44ea59dc0b9d7638c9e82a9c837e2a3;\
+            #         JSESSIONID-WYYY=sHwCKYJYxz6ODfURChA471BMF%5CSVf3%5C\
+            #         Tc8Qcy9h9Whj6CfMxw4YWTMV7CIx5g6rqW8OBv04YGHwwq%2B%5\
+            #         CD1N61qknTP%2Fym%2BHJZ1ylSH1EabbQASc9ywIT8YvOr%2FpMg\
+            #         vmm1cbr2%2Bd6ssMYXuTlpOIrKqp%5C%2FM611EhmfAfU47%5CSQ\
+            #         WAs%2BYzgY%3A1533828139236'
 
         }
         self.main_url = 'http://music.163.com/'
@@ -66,13 +89,15 @@ class wangyiyun():
         '''
         进入所选歌单页面，得出歌单里每首歌各自的ID 形式就是“song?id=64006"
         '''
-        url = self.main_url+'playlist?id=%d' % playlist
-        re = self.session.get(url)  # 直接用session进入网页，懒得构造了
-        sel = Selector(text=re.text)  # 用scrapy的Selector，懒得用BS4了
+        url = self.main_url+'playlist?id={}'.format(playlist)
+        re = self.session.get(url)
+        sel = Selector(text=re.text)
         songurls = sel.xpath('//ul[@class="f-hide"]/li/a/@href').extract()
         title = sel.xpath('//div[@class="tit"]/h2/text()').extract_first()
-        return songurls, title  # 所有歌曲组成的list
-        ##['/song?id=64006', '/song?id=63959', '/song?id=25642714', '/song?id=63914', '/song?id=4878122', '/song?id=63650']
+        return songurls, title
+        # 所有歌曲组成的list
+        # ['/song?id=64006', '/song?id=63959', '/song?id=25642714', '/song?
+        # id=63914', '/song?id=4878122', '/song?id=63650']
 
     def get_songinfo(self, songurl):
         '''
@@ -145,4 +170,4 @@ class wangyiyun():
 
 if __name__ == '__main__':
     d = wangyiyun()
-    d.work(310970433)
+    d.work(2489251059)
