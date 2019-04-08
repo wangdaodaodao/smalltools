@@ -170,4 +170,5 @@ class wangyiyun():
 
 if __name__ == '__main__':
     d = wangyiyun()
+    #work内为歌单id
     d.work(2489251059)
